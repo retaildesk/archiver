@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//Route::get('apps/enable/{id}', 'Apps\AppsController@enable')->where('id', '[0-9]+');
 
 Route::get('/','App\Http\Controllers\DashboardController@index' )->middleware(['auth'])->name('dashboard');
 Route::get('/download','App\Http\Controllers\DownloadController@form' )->middleware(['auth'])->name('download');
