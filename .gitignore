@@ -2,7 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
-
+.DS_Store
 /vendor
 .env
 .env.backup
@@ -12,4 +12,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.idea/
+.phpintel/
+.styleci.yml
+.editorconfig
+
 
