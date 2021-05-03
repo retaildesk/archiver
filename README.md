@@ -29,3 +29,8 @@ Tool to archive your administration with the following options:
 - /archive/mt940
 - /archive/scans
 - /archive/zip
+
+
+## Quick start
+1. Start by uploading mt940 file
+2. And simply start archiving
