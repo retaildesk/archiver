@@ -82,6 +82,7 @@ class TransactionsDataTable extends DataTable
             Column::make('name')->title(__('Naam')),
             Column::make('amount')->title(__('Bedrag')),
             Column::make('description')->title(__('Omschrijving')),
+            Column::make('comment')->title(__('Opmerking')),
         ];
     }
 
