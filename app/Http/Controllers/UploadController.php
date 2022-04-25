@@ -6,6 +6,7 @@ use App\Jobs\processMT940Job;
 use App\Models\TransactionFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class UploadController extends Controller
 {
@@ -43,6 +44,15 @@ class UploadController extends Controller
     public function getFile(Request $request){
         $file = TransactionFile::find($request->id);
         return Storage::download($file->path,$file->name);
+    }
+    public function getFileInline(Request $request){
+        $file = TransactionFile::find($request->id);
+        $file = Storage::get($file->path);
+        return Response::make($file, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="pdf"'
+        ]);
+        //return response()->file($file);
     }
     public function deleteFile(Request $request){
         $file = TransactionFile::find($request->id);

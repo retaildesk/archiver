@@ -74,12 +74,12 @@
     @section("scripts")
         @include('templates.tablescripts');
         <script>
+
             render = {
                 date(number, type, whole_row) {
                     return '<span class="row-id" data-id="' + whole_row.id + '">' + number + '</span>';
                 }
             };
-
             var drawCallback = function(data){
                 // if (data[0] !== undefined) {
                 //     openTransaction(data[0].id, true);
@@ -114,8 +114,69 @@
             $("#open_btn").click(function(){
                 transactionStatus("open");
             });
+            document.addEventListener('keydown', function(e) {
+                if(e.keyCode == 32 && e.target == document.body) {
+                    e.preventDefault();
+                }
+            });
+
+            document.addEventListener('keyup', event => {
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    if(!viewer_opened){
+                        openViewer();
+                    } else {
+                        closeViewer();
+                    }
+
+                }
+            });
+            let viewer_opened = false;
+            let page = 1;
+            function openViewer(page = 1){
+                $(".next").unbind();
+                $(".previous").unbind();
+                let files = window.getFiles();
+                if(files.length > 0 && files[page-1] !== undefined){
+                    $("body").css('overflow','hidden');
+                    viewer_opened = true;
+                    $(".viewer").css('height',$(window).height());
+                    $(".viewer").show();
+                    let url = "";
+                    let html = "<iframe src='/upload/fileinline/"+files[page-1].id+"' width='100%' height='"+$(window).height()  +"px'></iframe>";
+                    $(".pdf").html(html);
+                }
+                if(files.length > 1){
+                    $(".pagination").show();
+                    $(".next").click(function(){
+                        let pagenext = page + 1;
+                        openViewer(pagenext);
+                    });
+                    if(page > 1){
+                        $(".previous").click(function(){
+                            let pagenext = page - 1;
+                            openViewer(pagenext);
+                        });
+                    }
+                }
+
+            }
+            function closeViewer(){
+                $("body").css('overflow','auto');
+                viewer_opened = false;
+                $(".viewer").hide();
+            }
         </script>
     @endsection
 
 </x-app-layout>
 
+<div class="viewer">
+    <div class="pagination">
+        <span class="previous">Vorige</span>
+        <span class="next">Volgende</span>
+    </div>
+    <div class="pdf">
+
+    </div>
+</div>

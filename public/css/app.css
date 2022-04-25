@@ -32739,6 +32739,30 @@ tr.selected{
   padding: 5px;
 }
 
+.viewer{
+  width: 100%;
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.pagination{
+  display: none;
+  background: white;
+  width:100%;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.pagination span{
+  cursor: pointer;
+}
+
+.pagination .next{
+  float: right;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -185778,4 +185802,3 @@ tr.selected{
             animation: bounce 1s infinite;
   }
 }
-

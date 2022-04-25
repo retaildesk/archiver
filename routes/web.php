@@ -22,6 +22,7 @@ Route::post('/transaction/{id}/comment','App\Http\Controllers\TransactionControl
 Route::post('/transaction/{id}/status','App\Http\Controllers\TransactionController@status' )->middleware(['auth'])->where('id', '[0-9]+');
 Route::post('/upload/transaction','App\Http\Controllers\UploadController@TransactionUpload' )->middleware(['auth']);
 Route::get('/upload/file/{id}','App\Http\Controllers\UploadController@getFile' )->middleware(['auth'])->where('id', '[0-9]+');
+Route::get('/upload/fileinline/{id}','App\Http\Controllers\UploadController@getFileInline' )->middleware(['auth'])->where('id', '[0-9]+');
 Route::delete('/upload/file/{id}','App\Http\Controllers\UploadController@deleteFile' )->middleware(['auth'])->where('id', '[0-9]+');
 
 Route::post('/upload/mt940','App\Http\Controllers\UploadController@Mt940Upload' )->middleware(['auth'])->name('postuploadMt940');

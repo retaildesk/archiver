@@ -4059,6 +4059,8 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 var transaction = new function () {
+  this.files = [];
+
   this.openTransaction = function (transaction_id) {
     axios.get('/transaction/' + transaction_id).then(function (response) {
       // handle success
@@ -4101,10 +4103,15 @@ var transaction = new function () {
           files += "<div class='block'><a title='" + data.files[i].name + "' href='/upload/file/" + data.files[i].id + "'><b>" + data.files[i].name.substring(0, 20) + "</b></a><button onclick= 'deleteFile(" + transaction_id + "," + data.files[i].id + ")' class='bg-white font-semibold py-1 px-1 ml-5 text-xs border border-gray-400 rounded shadow'>Verwijder</button></div>";
         }
 
+        transaction.files = data.files;
         $("#transaction_files").html(files);
         $(".dz-preview").remove();
       }
     });
+  };
+
+  this.getFiles = function () {
+    return transaction.files;
   };
 
   this.saveComment = function () {
@@ -4189,6 +4196,7 @@ var transaction = new function () {
     }
   };
 }();
+window.getFiles = transaction.getFiles;
 window.openTransaction = transaction.openTransaction;
 window.deleteFile = transaction.deleteFile;
 window.openBrowser = transaction.openBrowser;

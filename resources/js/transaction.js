@@ -1,6 +1,7 @@
 const axios = require('axios');
 var moment = require("moment");
 var transaction = new function(){
+    this.files = [];
     this.openTransaction = function(transaction_id){
         axios.get('/transaction/'+transaction_id)
             .then(function (response) {
@@ -37,13 +38,14 @@ var transaction = new function(){
                     for (var i = 0; i < data.files.length; i++) {
                         files += "<div class='block'><a title='"+data.files[i].name+"' href='/upload/file/"+data.files[i].id+"'><b>"+data.files[i].name.substring(0,20)+"</b></a><button onclick= 'deleteFile("+transaction_id+","+data.files[i].id+")' class='bg-white font-semibold py-1 px-1 ml-5 text-xs border border-gray-400 rounded shadow'>Verwijder</button></div>"
                     }
+                    transaction.files = data.files;
                     $("#transaction_files").html(files);
                     $(".dz-preview").remove();
-
-
-
                 }
             });
+    };
+    this.getFiles = function(){
+        return transaction.files;
     };
     this.saveComment = function(){
         if($("#transaction_dropzone_id").val() > 0){
@@ -111,6 +113,7 @@ var transaction = new function(){
         }
     }
 };
+window.getFiles = transaction.getFiles;
 window.openTransaction = transaction.openTransaction;
 window.deleteFile = transaction.deleteFile;
 window.openBrowser = transaction.openBrowser;
