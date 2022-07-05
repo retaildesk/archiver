@@ -19,7 +19,7 @@ class BrowserController extends Controller
         $end = substr($request->end,0,10);
         $q = $request->q;
         $files = $this->getGmailAttachments($q);
-        $files = array_merge($files,$this->getFtpFiles($start,$end,$q));
+        $files = array_merge($this->getFtpFiles($start,$end,$q),$files);
         return $files;
     }
     private function getFtpFiles($start,$end,$q){
