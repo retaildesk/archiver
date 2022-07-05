@@ -2,6 +2,8 @@ const axios = require('axios');
 var moment = require("moment");
 var transaction = new function(){
     this.files = [];
+    this.type = "file";
+
     this.openTransaction = function(transaction_id){
         axios.get('/transaction/'+transaction_id)
             .then(function (response) {
@@ -59,8 +61,9 @@ var transaction = new function(){
             openTransaction(transaction_id);
         });
     };
-    this.openBrowser = function(){
+    this.openBrowser = function(type){
         if($("#transaction_dropzone_id").val() > 0){
+            transaction.type = type;
             var drp1 = $('#datepicker-range').data('daterangepicker');
             var drp2 = $('#datepicker-range2').data('daterangepicker');
             drp2.setStartDate(drp1.startDate);
@@ -68,6 +71,7 @@ var transaction = new function(){
             $("#browser_search").val($("#debt_name").text());
             $("#transactions_table").hide();
             $("#browser_table").show();
+            transaction.applyBrowser();
         }
     };
     this.closeBrowser = function(){
@@ -81,11 +85,11 @@ var transaction = new function(){
         var date_end = picker.endDate.format('YYYY-MM-DD HH:mm');
         var search = $("#browser_search").val();
 
-        axios.post('/browser',{"start":date_start,"end":date_end,"q":search}).then(function (response){
+        axios.post('/browser/'+transaction.type,{"start":date_start,"end":date_end,"q":search}).then(function (response){
             var data = response.data;
             var files = "";
             for (var i = 0; i < data.length; i++) {
-                files += "<tr><td>"+moment(data[i].date).format("DD-MM-YY")+"</td><td>"+data[i].from.name+"</td><td>"+data[i].from.email+"</td><td><a href='#' onclick='downloadFile(\""+data[i].url+"\")'>"+data[i].filename+"</a></td><td><button onclick= 'selectFile(\""+data[i].connect+"\")' class='bg-white font-semibold py-1 px-1 ml-5 text-xs border border-gray-400 rounded shadow'>Selecteer</button></td></tr>"
+                files += "<tr><td>"+moment(data[i].date).format("DD-MM-YY")+"</td><td>"+data[i].from.name+"</td><td>"+data[i].from.email+"</td><td><a href='#' onclick='downloadFile(\""+data[i].url+"\")'>"+data[i].filename+"</a></td><td><button onclick= 'previewFile(\""+data[i].url+"\")' class='bg-white font-semibold py-1 px-1 ml-5 text-xs border border-gray-400 rounded shadow'>Inzien</button><td><button onclick= 'selectFile(\""+data[i].connect+"\")' class='bg-white font-semibold py-1 px-1 ml-5 text-xs border border-gray-400 rounded shadow'>Selecteer</button></td></tr>"
             }
             $("#file_browser_content").html(files);
         });
@@ -102,8 +106,22 @@ var transaction = new function(){
             });
         }
     };
+    this.previewFile = function(url){
+        $(".viewer").css('height',$(window).height());
+        $(".viewer").show();
+        let html = "<iframe src='"+url+"' width='100%' height='"+$(window).height()  +"px'></iframe>";
+        $(".pdf").html(html);
+        document.addEventListener('keyup', event => {
+            if (event.code === 'Escape') {
+                event.preventDefault();
+                $("body").css('overflow','auto');
+                viewer_opened = false;
+                $(".viewer").hide();
+            }
+        });
+    };
     this.transactionStatus = function(status){
-        if(confirm("ja?")){
+        if(confirm("Bjorn?")){
             axios.post('/transaction/'+$("#transaction_dropzone_id").val()+'/status',{"status":status}).then(function (response){
                 var table = CustomDataTable.elem;
                 if(table !== undefined){
@@ -121,5 +139,7 @@ window.closeBrowser = transaction.closeBrowser;
 window.applyBrowser = transaction.applyBrowser;
 window.downloadFile = transaction.downloadFile;
 window.selectFile = transaction.selectFile;
+window.previewFile = transaction.previewFile;
+
 window.saveComment = transaction.saveComment;
 window.transactionStatus = transaction.transactionStatus;

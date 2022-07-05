@@ -61,6 +61,11 @@
                     <button class="bg-white  font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="select_file">
                         Bestand selecteren
                     </button>
+                    <button class="bg-white  font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="select_email">
+                        Email selecteren
+                    </button>
+                </div>
+                <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="finish_btn" style="display:none;">
                         Afsluiten
                     </button>
@@ -91,7 +96,10 @@
                 });
             };
             $("#select_file").click(function(){
-               openBrowser();
+               openBrowser("file");
+            });
+            $("#select_email").click(function(){
+                openBrowser("email");
             });
             $("#browse_close").click(function(){
                closeBrowser();

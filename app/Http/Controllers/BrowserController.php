@@ -14,13 +14,19 @@ use Carbon\Carbon;
 
 class BrowserController extends Controller
 {
+    //todo
+    //bestand moet weg als deze al keer is toegevoegd
+    //comment glitch
+
     public function post(Request $request){
         $start = substr($request->start,0,10);
         $end = substr($request->end,0,10);
         $q = $request->q;
-        $files = $this->getGmailAttachments($q);
-        $files = array_merge($this->getFtpFiles($start,$end,$q),$files);
-        return $files;
+        if($request->type == "file"){
+            return $this->getFtpFiles($start,$end,$q);
+        } else {
+            return $this->getGmailAttachments($q);
+        }
     }
     private function getFtpFiles($start,$end,$q){
         $start = Carbon::parse($start)->startOfDay()->timestamp;
@@ -28,10 +34,11 @@ class BrowserController extends Controller
         $files = [];
         $all_files = Storage::disk('ftp')->listContents("scans");
 
-        foreach($all_files as $file){
 
+        foreach($all_files as $file){
             if(
-                (empty($q) || (str_contains(strtolower($file['basename']),strtolower($q))))
+                ((empty($q) || (str_contains(strtolower($file['basename']),strtolower($q)))))
+                && TransactionFile::where('name',$file['basename'])->count() === 0
             ){
                 $files[] = [
                     "from"=>["email"=>"-","name"=>"scan"],

@@ -32747,7 +32747,7 @@ tr.selected{
   top: 0;
 }
 
-.pagination{
+.viewer .pagination{
   display: none;
   background: white;
   width:100%;
@@ -32755,12 +32755,19 @@ tr.selected{
   padding: 20px;
 }
 
-.pagination span{
+.viewer .pagination span{
   cursor: pointer;
 }
 
-.pagination .next{
+.viewer .pagination .next{
   float: right;
+}
+
+.transaction-view{
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  width: 25%;
 }
 
 @media (min-width: 640px) {

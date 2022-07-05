@@ -26,7 +26,7 @@ Route::get('/upload/fileinline/{id}','App\Http\Controllers\UploadController@getF
 Route::delete('/upload/file/{id}','App\Http\Controllers\UploadController@deleteFile' )->middleware(['auth'])->where('id', '[0-9]+');
 
 Route::post('/upload/mt940','App\Http\Controllers\UploadController@Mt940Upload' )->middleware(['auth'])->name('postuploadMt940');
-Route::post('/browser','App\Http\Controllers\BrowserController@post' )->middleware(['auth']);
+Route::post('/browser/{type}','App\Http\Controllers\BrowserController@post' )->middleware(['auth']);
 
 Route::get('/browser/open/{type}/{base64}','App\Http\Controllers\BrowserController@openAttachment' )->middleware(['auth'])->where('type',"attachment|scan");
 Route::get('/browser/connect/{transaction_id}/{base64}','App\Http\Controllers\BrowserController@connectAttachment' )->middleware(['auth']);
