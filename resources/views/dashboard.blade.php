@@ -59,19 +59,20 @@
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-white  font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="select_file">
-                        Bestand selecteren
+                        Bestand
                     </button>
                     <button class="bg-white  font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="select_email">
-                        Email selecteren
+                        Email
                     </button>
-                </div>
-                <div class="p-6 bg-white border-b border-gray-200">
                     <button class="bg-green-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="finish_btn" style="display:none;">
                         Afsluiten
                     </button>
                     <button class="bg-red-500 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow" id="open_btn" style="display:none;">
                         Openen
                     </button>
+                </div>
+                <div class="p-6 bg-white border-b border-gray-200">
+
                 </div>
             </div>
         </div>
