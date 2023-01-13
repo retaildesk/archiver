@@ -24,6 +24,9 @@ class TransactionsDataTable extends DataTable
             ->editColumn("date",function($q){
                 return $q->date->format("d-m-Y");
             })
+            ->editColumn("comment",function($q){
+                return $q->comment ?? "";
+            })
             ->editColumn("amount",function($q){
                 return $q->amount/100;
             })->filter(function ($query) {

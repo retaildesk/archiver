@@ -121,7 +121,7 @@ var transaction = new function(){
         });
     };
     this.transactionStatus = function(status){
-        if(confirm("Bjorn?")){
+        if(confirm("Weet je het zeker?")){
             axios.post('/transaction/'+$("#transaction_dropzone_id").val()+'/status',{"status":status}).then(function (response){
                 var table = CustomDataTable.elem;
                 if(table !== undefined){
